@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ECODOT</title>
+    <style>
+        /* Basic Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        /* Splash Screen */
+        .splash-screen {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background: linear-gradient(145deg, #006d34, #2e8b57);
+            color: white;
+            text-align: center;
+            flex-direction: column;
+            animation: fadeIn 2s ease-in-out;
+        }
+
+        .splash-title {
+            font-size: 4em;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .splash-button {
+            padding: 12px 25px;
+            background-color: #43a047;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        /* Navigation (visible after login) */
+        /* Navigation (visible after login) */
+        .nav {
+            display: none;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: #26a75e;
+            color: white;
+            width: 100%;
+            height: 60px;
+        }
+
+        .nav h2 {
+            font-size: 2.3em;
+            margin: 0;
+        }
+
+        .nav-links {
+            margin-left: auto; /* Pushes links to the right */
+            display: flex;
+            gap: 15px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 1.5em;
+        }
+
+        .nav-links a:hover {
+            text-decoration: underline;
+        }
+
+
+
+
+
+
+        /* Login Page */
+        .login-page {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .login-container {
+            width: 400px;
+            padding: 30px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
+
+        .login-container img {
+            width: 120px;
+            margin-bottom: 20px;
+            border-radius: 50%;
+        }
+
+        .login-container h2 {
+            margin-bottom: 20px;
+            color: #2e7d32;
+        }
+
+        .login-container input[type="text"],
+        .login-container input[type="password"] {
+            width: 100%;
+            padding: 14px;
+            margin: 14px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1em;
+        }
+
+        .login-container button {
+            width: 100%;
+            padding: 14px;
+            background-color: #43a047;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1em;
+            cursor: pointer;
+        }
+
+        .default-note {
+            margin-top: 10px;
+            font-size: 0.9em;
+            color: #666;
+        }
+
+
+        /* Main Page */
+        .main-page {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background: url('https://www.transparenttextures.com/patterns/white-paper.png'), #e8f5e9;
+            padding: 20px;
+        }
+
+        .main-container {
+            width: 90%;
+            max-width: 1000px;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        .main-container h2 {
+            color: #2e7d32;
+            margin-bottom: 20px;
+            font-size: 3.0em;
+        }
+
+        /* Button Row */
+        .button-row {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            margin: 20px 0;
+            width: 100%;
+        }
+
+        .main-button {
+            width: 48%;
+            padding: 25px;
+            margin: 10px 0;
+            font-size: 1.5em;
+            background-color: #43a047;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 150px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .main-button:hover {
+            background-color: #388e3c;
+        }
+
+        .main-button span {
+            margin-right: 8px;
+            font-size: 1.5em;
+        }
+
+        /* Next Button */
+        .next-button {
+            padding: 20px 40px;
+            background-color: #2196F3;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.5em;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            margin-top: 20px;
+        }
+
+        .next-button:hover {
+            background-color: #1976D2;
+            transform: translateY(-2px);
+        }
+
+        /* Subscription Page */
+        .subscription-page {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background: linear-gradient(145deg, #f0f0f0, #d1e7dd);
+            color: #2e7d32;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .subscription-container {
+            width: 90%;
+            max-width: 800px;
+            padding: 40px;
+            background-color: #b5d6b6;
+            border-radius: 12px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .subscription-container h2 {
+            color: #2e7d32;
+            margin-bottom: 30px;
+            font-size: 3.5em;
+        }
+
+        .subscription-plan {
+            font-size: 2.0em;
+            margin: 10px 0;
+            color: #388e3c;
+        }
+
+        .buy-now-button {
+            padding: 20px 40px;
+            background-color: #1976D2;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.5em;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            margin-top: 30px;
+        }
+
+        .buy-now-button:hover {
+            background-color: #1976D2;
+            transform: translateY(-2px);
+        }
+
+        /* Payment Options Page */
+        .payment-page {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #e8f5e9; /* Same background as login and main pages */
+            color: #2e7d32;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .payment-container {
+            width: 90%;
+            max-width: 600px;
+            padding: 40px;
+            background-color: #ffffff; /* White background for the payment box */
+            border-radius: 12px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .payment-container h2 {
+            font-size: 2.5em; /* Increased font size */
+            margin-bottom: 30px; /* Spacing below heading */
+        }
+
+        .payment-option {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start; /* Aligns text to the left */
+            padding: 20px; /* Increased padding */
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin: 10px 0;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-size: 1.5em; /* Increased font size */
+        }
+
+        .payment-option:hover {
+            background-color: #f0f0f0; /* Light grey background on hover */
+        }
+
+        .pay-now-button {
+            padding: 15px 30px;
+            background-color: #43a047;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.5em; /* Increase font size */
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            margin-top: 20px; /* Spacing above button */
+            display: block; /* Change this to block */
+            margin-left: auto; /* Add this line */
+            margin-right: auto; /* Add this line */
+        }
+
+        .pay-now-button:hover {
+            background-color: #388e3c; /* Darker green on hover */
+            transform: translateY(-2px);
+        }
+        /* Modal Styles */
+.modal {
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 600px;
+    border-radius: 5px;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Splash Screen -->
+    <div class="splash-screen" id="splashScreen">
+        <h1 class="splash-title">Welcome to ECODOT!</h1>
+        <button class="splash-button" onclick="showLogin()">Get Started</button>
+    </div>
+
+    <!-- Login Page -->
+    <div class="login-page" id="loginPage">
+        <div class="login-container">
+            <img src="https://drive.google.com/thumbnail?id=189kq7JPEtdgfgJmu6PSl4xvRkfcowuWK" alt="Logo">
+            <h2>Login</h2>
+            <input type="text" placeholder="Username">
+            <input type="password" placeholder="Password">
+            <button onclick="goToMain()">Login</button>
+            <p class="default-note">Note: Default password: 123</p>
+        </div>
+    </div>
+    <!-- Navigation (visible after login) -->
+    <!-- Navigation (visible after login) -->
+    <div class="nav" id="navBar">
+        <h2>ECODOT</h2>
+        <div class="nav-links">
+            <a href="aboutus.html">About Us</a>
+            <a href="contact.html">Contact Us</a>
+            <a href="#" onclick="goToLogin()">Sign In</a>
+        </div>
+    </div>
+
+
+
+    <!-- Main Page -->
+    <div class="main-page" id="mainPage">
+        <div class="main-container">
+            <h2>ECODOT Dashboard</h2>
+            <div class="button-row">
+                <button class="main-button" onclick="showModal('Alerts')"><span>🔔</span> Alerts</button>
+                <button class="main-button" onclick="showModal('Fuel Efficiency Tips')"><span>💡</span> Fuel Efficiency Tips</button>
+            </div>
+            <div class="button-row">
+                <button class="main-button" onclick="showModal('Health Monitoring')"><span>💚</span> Health Monitoring</button>
+                <button class="main-button" onclick="showModal('Fuel Monitoring')"><span>⛽</span> Fuel Monitoring</button>
+            </div>
+            <button class="next-button" onclick="goToSubscription()">Next</button>
+        </div>
+    </div>
+
+    <!-- Subscription Page -->
+    <div class="subscription-page" id="subscriptionPage">
+        <div class="subscription-container">
+            <h2>Subscription Plan</h2>
+            <div class="subscription-plan">Annual Plan: ₹2000/-</div>
+            <button class="buy-now-button" onclick="goToPayment()">Buy Now</button>
+        </div>
+    </div>
+
+    <!-- Payment Options Page -->
+    <div class="payment-page" id="paymentPage">
+        <div class="payment-container">
+            <h2>Select Payment Method</h2>
+            <div class="payment-option" onclick="selectPayment('Credit/Debit Card')">
+                <span>💳</span> Credit/Debit Card
+            </div>
+            <div class="payment-option" onclick="selectPayment('UPI')">
+                <span>📱</span> UPI
+            </div>
+            <div class="payment-option" onclick="selectPayment('PayPal')">
+                <span>💸</span> PayPal
+            </div>
+            <div class="payment-option" onclick="selectPayment('Netbanking')">
+                <span>🏦</span> Netbanking
+            </div>
+            <button class="pay-now-button" id="payNowButton" onclick="payNow()">Pay Now</button>
+        </div>
+    </div>
+
+    <script>
+        let selectedPaymentMethod = ''; // Variable to store selected payment method
+        
+        function showLogin() {
+            document.getElementById('splashScreen').style.display = 'none';
+            document.getElementById('loginPage').style.display = 'flex';
+            document.getElementById('navBar').style.display = 'none'; // Hide navigation on splash screen
+        }
+        
+        function goToMain() {
+            const username = document.querySelector('.login-container input[type="text"]').value;
+            const password = document.querySelector('.login-container input[type="password"]').value;
+        
+            // Validate inputs
+            if (username === "" || password === "") {
+                alert("Please enter both username and password.");
+                return;
+            }
+        
+            // Proceed to main page if validation passes
+            document.getElementById('loginPage').style.display = 'none';
+            document.getElementById('navBar').style.display = 'flex'; // Show the navigation bar
+            document.getElementById('mainPage').style.display = 'flex';
+        }
+        
+        function goToLogin() {
+            document.getElementById('mainPage').style.display = 'none';
+            document.getElementById('loginPage').style.display = 'flex';
+            document.getElementById('navBar').style.display = 'none'; // Hide the navigation bar when going back to login
+        }
+        
+        function goToSubscription() {
+            document.getElementById('mainPage').style.display = 'none';
+            document.getElementById('subscriptionPage').style.display = 'flex';
+        }
+        
+        function goToPayment() {
+            document.getElementById('subscriptionPage').style.display = 'none';
+            document.getElementById('paymentPage').style.display = 'flex';
+        }
+        
+        function selectPayment(method) {
+            selectedPaymentMethod = method; // Store the selected payment method
+            const payNowButton = document.getElementById('payNowButton');
+            payNowButton.style.display = 'block'; // Show the Pay Now button after selecting payment method
+            alert(`You have selected ${method}`); // Use backticks for the alert message
+        }
+        
+        function payNow() {
+            // Check if a payment method has been selected
+            if (selectedPaymentMethod === '') {
+                alert("Please select a payment method before proceeding.");
+                return; // Exit the function if no payment method is selected
+            }
+            
+            alert("Payment successful..."); // Proceed with the payment
+            // Add your payment processing logic here
+        }
+        
+        function showModal(type) {
+            let message;
+            switch (type) {
+                case 'Alerts':
+                    message = "Fuel levels are low!!";
+                    break;
+                case 'Fuel Efficiency Tips':
+                    message = "Maintain optimal tire pressure.";
+                    break;
+                case 'Health Monitoring':
+                    message = "Everything looks good!";
+                    break;
+                case 'Fuel Monitoring':
+                    message = "10% fuel remaining";
+                    break;
+                default:
+                    message = "No message available.";
+            }
+        
+            document.getElementById('modalMessage').innerText = message;
+            document.getElementById('modal').style.display = 'block';
+        }
+        
+        function closeModal() {
+            document.getElementById('modal').style.display = 'none';
+        }
+        </script>
+    <!-- Modal -->
+<div class="modal" id="modal" style="display:none;">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <p id="modalMessage"></p>
+    </div>
+</div>
+
+</body>
+</html>
+
